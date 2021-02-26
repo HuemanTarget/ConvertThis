@@ -13,12 +13,37 @@ struct MeasurementConversionView: View {
   @State private var initialMeasurement = 0
   @State private var convertedMeasurment = 0
   
-  let measurements = ["feet", "meters", "yards", "kilometers", "meters"]
+  let measurements = ["feet", "meters", "yards", "kilometers", "miles"]
   
   // MARK: - BODY
   var body: some View {
-    Text("Mesurement Conversion")
-      .padding()
+    Form {
+      Section(header: Text("Please enter your measurment")) {
+        TextField("Amount", text: $amount)
+          .keyboardType(.numberPad)
+        
+        Picker("Measurement", selection: $initialMeasurement) {
+          ForEach(0 ..< measurements.count) {
+            Text("\(self.measurements[$0])")
+          }
+        }
+        .pickerStyle(SegmentedPickerStyle())
+      }
+      
+      Section(header: Text("Convert to?")) {
+        Picker("Measurement", selection: $convertedMeasurment) {
+          ForEach(0 ..< measurements.count) {
+            Text("\(self.measurements[$0])")
+          }
+        }
+        .pickerStyle(SegmentedPickerStyle())
+      }
+      
+      Section(header: Text("Converted Amount")) {
+        Text("\(amount)")
+      }
+    }
+    .padding(.top, 20)
   }
 }
 
